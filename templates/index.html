@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SONOFF iPlug Monitor</title>
+</head>
+<body>
+  <h1>Устройства в мрежата</h1>
+  <div id="devices"></div>
+  <script>
+    function fetchDevices() {
+      fetch('/api/devices')
+        .then(response => response.json())
+        .then(data => {
+          const devicesDiv = document.getElementById('devices');
+          devicesDiv.innerHTML = '';
+          for (const ip in data) {
+            devicesDiv.innerHTML += `<p>${ip}: ${JSON.stringify(data[ip])}</p>`;
+          }
+        });
+    }
+    // Обновяване на данните на всеки 10 секунди
+    setInterval(fetchDevices, 10000);
+    fetchDevices();
+  </script>
+</body>
+</html>
